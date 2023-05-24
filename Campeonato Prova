@@ -1,0 +1,220 @@
+#include <iostream>
+#include <stdlib.h>
+#include <locale.h>
+#include <windows.h>
+
+using namespace std;
+class Endereco{
+    int numero;
+    string bairro;
+    string rua;
+public:
+     Endereco() {}
+    Endereco(int num_endereco, string bairro_endereco, string rua_endereco){
+        numero=num_endereco;
+        bairro=bairro_endereco;
+        rua=rua_endereco;
+    }
+};
+
+class Estadio{
+    string nome;
+    Endereco endereco;
+    static int telefone;
+public:
+    Estadio(){}
+     Estadio(string nome_e, Endereco endereco_e){
+    nome = nome_e;
+    endereco = endereco_e;
+
+}
+    string get_nome_e()
+    {
+        return nome;
+    }
+     static void mudatel()
+    {
+        cout<<"Digite tel"<<endl;
+        cin>>telefone;
+    }
+     static int gettelefone()
+    {
+        return telefone;
+    }
+};
+int Estadio::telefone=0;
+
+class Pessoa
+{
+    string nome;
+public:
+    Pessoa()
+    {
+    }
+    Pessoa(string n)
+    {
+        nome = n;
+    }
+
+};
+class Jogador: public Pessoa
+{
+    int numero;
+    string posicao;
+    string time;
+public:
+    Jogador()
+    {
+    }
+    Jogador(int num,string p, string t, string n): Pessoa(n)
+    {
+        numero=num;
+        posicao=p;
+        time=t;
+    }
+ void setnum(int num_j)
+    {
+        numero=num_j;
+    }
+    int getnum()
+    {
+        return numero;
+    }
+
+
+
+};
+struct LJogador
+{
+    Jogador num[100];
+    int tam;
+};
+
+class Funcionario: public Pessoa
+{
+    int codigo_f;
+    int salario;
+    string cargo;
+
+public:
+    Funcionario()
+    {
+    }
+    Funcionario(int cod_f, int salario_funcionario, string cargo_funcionario, string n):Pessoa(n)
+    {
+        codigo_f = cod_f;
+        salario = salario_funcionario;
+        cargo = cargo_funcionario;
+    }
+    Jogador cadastrarJogador(int &tam)
+    {
+        int num_j;
+        string n, posi, time_j;
+
+        cout <<"Digite o Nome do Jogador: ";
+        cin >> n;
+        cout <<"Digite a Posição do Jogador: ";
+        cin >> posi;
+        cout <<"Digite o Time do Jogador: ";
+        cin >> time_j;
+        num_j=tam;
+        cout << "\n\nJogador cadastrado";
+        Sleep(2000);
+        system("cls");
+        Jogador jogador( num_j,  posi,  time_j, n);
+        return jogador;
+    }
+
+    bool exclui_jogador(LJogador &lista)
+    {
+        int pos;
+        cout << "Qual numero do jogador que deseja excluir? : ";
+        cin >> pos;
+        if(lista.tam < 100)
+        {
+            for(int i=pos; i<lista.tam; i++)
+            {
+                lista.num[i] = lista.num[i+1];
+                lista.num[i].setnum(lista.num[i].getnum()-1);
+            }
+            lista.tam--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        cout << "\n\nJogador foi excluido ";
+        Sleep(2000);
+        system("cls");
+    }
+    void setcodigo_f(int cod_f)
+    {
+        codigo_f = cod_f;
+    }
+    int getcodigo_f()
+    {
+        return codigo_f;
+    }
+
+};
+
+struct LFuncionario
+{
+    Funcionario num[100];
+    int tam;
+};
+
+template <typename TIPO>
+void ini_lista(TIPO &lista)
+{
+    lista.tam=0;
+}
+
+class Chefe : public Funcionario
+{
+    string nome = "Felski";
+public:
+    Funcionario cadastrarFuncionario(int &tam)
+    {
+        int s, cod_f;
+        string c, n;
+
+
+        cout <<"Digite o Nome do funcionario: ";
+        cin >> n;
+        cout <<"\nDigite o cargo do funcionario: ";
+        cin >> c;
+        cout <<"\nDigite o salario do funcionario: ";
+        cin >> s;
+        cod_f = tam;
+        cout << "\n\nFuncionario foi cadastrado";
+        Sleep(2000);
+        system("cls");
+        Funcionario funcionario(cod_f, s, c,n);
+        return funcionario;
+    }
+    bool exclui_funcionario(LFuncionario &lista)
+    {
+        int pos;
+        cout << "Qual codigo do funcionario que deseja excluir? : ";
+        cin >> pos;
+        if(lista.tam < 100)
+        {
+            for(int i=pos; i<lista.tam; i++)
+            {
+                lista.num[i] = lista.num[i+1];
+                lista.num[i].setcodigo_f(lista.num[i].getcodigo_f()-1);
+            }
+            lista.tam--;
+            cout << "\n\nFuncionario foi excluido";
+            Sleep(2000);
+            system("cls");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+};
